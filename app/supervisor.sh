@@ -1,0 +1,1 @@
+sudo supervisor app.js

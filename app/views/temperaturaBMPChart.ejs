@@ -1,0 +1,72 @@
+<!-- =================== Header =================== -->
+<%  include ./partials/header %>
+<!-- =================== /Header =================== -->
+<canvas id="myChart"></canvas>
+
+<!-- =================== Footer =================== -->
+<% include ./partials/footer %>
+<!-- =================== /Footer =================== -->
+
+
+<script type="text/javascript">
+    var ctx = document.getElementById("myChart").getContext("2d");
+
+    var timeFormat = 'MM/DD/YYYY HH:mm';
+
+    var vetorTemperatura = [];
+
+    <% for(i = 0; i < temperaturas.length; i+=15){
+    %>
+      vetorTemperatura.push('<%= temperaturas[i] %>');
+    <%
+    };
+    %>
+
+
+    var vetorData = [];
+    <% for(i = 0; i < datas.length; i+=15){
+    %>
+      vetorData.push('<%= datas[i] %>');
+    <%
+    };
+    %>
+
+    var config = {
+        type: 'line',
+        data: {
+          labels: vetorData,
+
+          datasets: [{
+            type: 'line',
+            label: 'temperatura BMP180 - Últimas 24 horas',
+            backgroundColor: "#40bf40",
+            borderColor: "#40bf40",
+            fill: false,
+            data: vetorTemperatura,
+            borderWidth: 2,
+            pointRadius: 2
+          }]
+        },
+        options: {
+            title: {
+                text:"Umidade do Solo"
+            },
+            scales: {
+              xAxes: [{
+                type: "time",
+                display: true,
+                time: {
+                  format: timeFormat,
+                  displayFormats: {
+                    'hour': 'MMM DD, HH:mm'
+                  }
+                }
+              }]
+            }
+          }
+      };
+  
+  var myChart = new Chart(ctx, config);
+
+
+</script>

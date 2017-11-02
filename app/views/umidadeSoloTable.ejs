@@ -1,0 +1,52 @@
+<!-- =================== Header =================== -->
+<%  include ./partials/header %>
+<!-- =================== /Header =================== -->
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Umidade Relativa do Solo</h2>
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="x_content">
+              <table id="dataTable" class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Umidade do Solo %</th>
+                    <th>ID no Banco de Dados</th>
+                  </tr>
+                </thead>
+
+
+                <tbody>
+                  <% dados.forEach(function(dado){ %>
+                  <tr>
+                    <td><%= dado.created %></td>
+                    <td><%= dado.value %></td>
+                    <td><%= dado._id %></td>
+                  </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<!-- =================== Footer =================== -->
+<% include ./partials/footer %>
+<!-- =================== /Footer =================== -->
+
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('#dataTable').DataTable({
+          "iDisplayLength": 25,
+          "order": [[ 0, "desc" ]]
+        });
+  } );
+
+</script>

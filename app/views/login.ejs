@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Login | Leandro Bellini</title>
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Favicon -->
+    <link rel='shortcut icon' type='image/x-icon' href='/img/favicon-pagelines.ico' />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .col-center-block {
+            float: none;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        html,
+        body,
+        .container {
+            height: 100%;
+            width: 100%;
+        }
+
+        .container {
+            display: table;
+            vertical-align: middle;
+        }
+
+        .vertical-center-row {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .login-screen-bg {
+            background-color: #EFEFEF;
+        }
+
+        .panel-git {
+            border: 1px solid #d8dee2;
+        }
+
+            .panel-git h3 {
+                color: #fff;
+            }
+
+            .panel-git .panel-heading {
+                background-color: #829AA8;
+            }
+
+        .login-widget {
+            padding: 50px;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 0px 1px 1px rgba(161, 159, 159, 0.1);
+            background-color: #FFF;
+        }
+    </style>
+</head>
+
+<body class="login-screen-bg">
+    <div class="container">
+        <div class="row vertical-center-row">
+            <div class="col-md-4 col-center-block login-widget">
+                <h1 class="text-center"><i class="fa fa-pagelines"></i> Leandro Bellini</h1> <br>
+                <div>
+                    <form action="/login" method="POST" >
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-user fa-fw"></i></div>
+                                <input type="text" class="form-control" name="username" placeholder="User">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-key fa-fw"></i></div>
+                                <input type="password" class="form-control" name="password" placeholder="******">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label for="c1">
+                                    <input type="checkbox" id="c1" name="cc"><span></span>Remember me</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

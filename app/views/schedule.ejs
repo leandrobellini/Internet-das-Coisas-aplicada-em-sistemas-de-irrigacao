@@ -1,0 +1,159 @@
+<!-- =================== Header =================== -->
+<%  include ./partials/header %>
+<!-- =================== /Header =================== -->
+
+
+<div class="row" style="height: 100%"> 
+    
+    <!-- start of weather widget -->
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel x_panel_home">
+		<div class="x_title">
+		  <h2>Schedule de horarários</h2>
+		  	<div class="pull-right" style="line-height: 180%;">
+		  		<span style="color: inherit;">Irrigaçao Automática</span>
+		  		<label class="switch">
+		  			<% if(sistemaTravado == 0) { %>
+			      		<input type="checkbox" class="switch-input" checked>
+			      	<% }else{ %>
+			      		<input type="checkbox" class="switch-input">
+			      	<% } %>
+
+			      <span class="switch-label" data-on="On" data-off="Off"></span>
+			      <span class="switch-handle"></span>
+			    </label>
+		  	</div>
+
+
+		  <div class="clearfix"></div>
+		</div>
+
+		<div class="x_content">		  
+		  <div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-12">
+					<button class="btn btn-success" data-toggle="modal" data-target="#modalAgendamento">
+						Agendar Horário
+					</button>
+					<button class="btn btn-primary" id="irrigarAgora">
+						Irrigar agora!
+					</button>
+					<span class="pull-right">
+						<b>Status: </b>
+						<% if(noConectado == 0){ %>
+							<i class="red">Nó offline</i>
+						<% }else{ %>
+							<i class="green">Nó Online</i>
+						<% } %>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					</span>
+					
+					<br>
+					<br>
+
+					<ul class="list-group">
+					<% horariosDeIrrigacao.forEach(function(dado){ %>
+						<li class="list-group-item">
+						    <span class="pull-right">
+						    	<button class="btn btn-danger btn-xs removedores" id="<%=dado.horario%>">Deletar</button>
+						    </span>
+						    Irrigaçao Diária às <b><%= dado.horario %></b>
+						  </li>
+					<% }); %>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+
+		</div>
+	</div>
+</div>
+
+<div id="modalAgendamento" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Incluir novo horário de Irrigaçao Automática</h4>
+      </div>
+      <div class="modal-body">
+        <div class="input-group clockpicker" style="width: 110px; margin: 0 auto;">
+		    <input type="text" class="form-control" value="18:00" id="horario">
+		    <span class="input-group-addon">
+		        <span class="glyphicon glyphicon-time"></span>
+		    </span>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-success" id="agendar">Agendar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- =================== Footer =================== -->
+<% include ./partials/footer %>
+<!-- =================== /Footer =================== -->
+
+<script type="text/javascript">
+	var clock = $('.clockpicker');
+	clock.clockpicker({
+	    autoclose: true
+	});
+
+	$('#agendar').click(function(){
+		var novoHorario = $('#horario').val();
+		var url = "schedule/adicionar/" + novoHorario;
+		$.get(url, function( data ) {
+			if(data === "Ok"){
+				$("#modalAgendamento").modal('hide');
+				location.reload();
+			}else{
+				alert("Já agendado para este horário!");
+			}
+		});
+	});  
+
+	$('#irrigarAgora').click(function(){
+
+		var url = "schedule/irrigarAgora";
+		$.get(url, function( data ) {
+			if(data === "Ok"){
+				alert("Irrigação de 1 minuto iniciada!");
+			}else{
+				alert("Erro ao iniciar Irrigação! Confira se o nó esta conectado pelo status On");
+			}
+		});
+	});
+
+	$('.removedores').on('click', function(event){
+		var strconfirm = confirm("Realmente deseja excluir o horário?");
+	    if (strconfirm == true) {
+	    	var url = "schedule/remover/" + $(this).attr("id");
+
+	        $.get(url, function( data ) {
+				if(data === "Ok"){
+					location.reload();
+				}else{
+					alert("Nao foi possível excluir esse horário!");
+				}
+			});
+	    }
+	});
+
+	$('.switch-label').on('click', function(event){
+		var url = "schedule/mudarEstadoSistema";
+
+        $.get(url, function( data ) {
+			if(data === "error"){
+				alert("Nao foi possível mudar o estado do sistema!");
+			}else{
+				alert(data);
+			}
+		});
+	});
+
+</script>

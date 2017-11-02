@@ -1,0 +1,257 @@
+<!-- =================== Header =================== -->
+<%  include ./partials/header %>
+<!-- =================== /Header =================== -->
+<!-- top tiles -->
+<div class="row tile_count">
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-thermometer-half "></i> Temperatura</span>
+    <div class="count" style="height: 47px;"><%= ultimosDados.ultimaTemperatura %> 
+    <span style="font-size: 25px;">°C</span></div>
+    <% 
+      var temperatura = (ultimosDados.ultimaTemperatura - ultimosDados.temperaturaUltimaHora).toFixed(1);
+      if(temperatura == 0){ %>
+        <span class="count_bottom"><i class="green"><i class="fa fa-minus"></i>0°C</i> From last Hour</span>
+    <% }else if(temperatura > 0){ %>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> <%= temperatura %>°C</i> From last Hour</span>
+    <% }else{ %>
+        <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i> <%= temperatura %>°C</i> From last Hour</span>
+    <% } %>
+  </div>
+
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-thermometer-half "></i> Umidade Ar</span>
+    <div class="count" style="height: 47px;"><%= ultimosDados.ultimaUmidadeDHT %> 
+    <span style="font-size: 25px;">%</span></div>
+    <% 
+      var umidade = (ultimosDados.ultimaUmidadeDHT - ultimosDados.umidadeDHTUltimaHora).toFixed(1);
+      if(umidade == 0){ %>
+        <span class="count_bottom"><i class="green"><i class="fa fa-minus"></i>0%</i> From last Hour</span>
+    <% }else if(umidade > 0){ %>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> <%= umidade %>%</i> From last Hour</span>
+    <% }else{ %>
+        <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i> <%= umidade %>%</i> From last Hour</span>
+    <% } %>
+  </div>
+
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-thermometer-half "></i> Umidade Solo</span>
+    <div class="count" style="height: 47px;"><%= ultimosDados.umidadeSoloAtual %> 
+    <span style="font-size: 25px;">%</span></div>
+    <% 
+      var umidadeSolo = (ultimosDados.umidadeSoloAtual - ultimosDados.umidadeSoloUltimaHora).toFixed(0);
+      if(umidadeSolo == 0){ %>
+        <span class="count_bottom"><i class="green"><i class="fa fa-minus"></i>0%</i> From last Hour</span>
+    <% }else if(umidadeSolo > 0){ %>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> <%= umidadeSolo %>%</i> From last Hour</span>
+    <% }else{ %>
+        <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i> <%= umidadeSolo %>%</i> From last Hour</span>
+    <% } %>
+  </div>
+
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-thermometer-half "></i> Pressão Atmosférica</span>
+    <div class="count" style="height: 47px;"><%= ultimosDados.ultimaPressao %> 
+    <span style="font-size: 20px;">mbar</span></div>
+    <% 
+      var pressao = (parseFloat(((ultimosDados.ultimaPressao - ultimosDados.pressaoUltimaHora)/ ultimosDados.pressaoUltimaHora))*100).toFixed(0);
+      if(pressao == 0){ %>
+        <span class="count_bottom"><i class="green"><i class="fa fa-minus"></i>0%</i> From last Hour</span>
+    <% }else if(pressao > 0){ %>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> <%= pressao %>%</i> From last Hour</span>
+    <% }else{ %>
+        <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i> <%= pressao %>%</i> From last Hour</span>
+    <% } %>
+  </div>
+  
+  
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-tint"></i> Litros Consumidos</span>
+    <div class="count">0</div>
+    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>0% </i> From last Week</span>
+  </div>
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-tint"></i> Total Economizado</span>
+    <div class="count green">0</div>
+    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>0% </i> From last Week</span>
+  </div>
+</div>
+<!-- /top tiles -->
+
+<!-- Charts --> 
+<div class="row"> 
+    
+    <!-- start of weather widget -->
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="x_panel x_panel_home">
+        <div class="x_title">
+          <h2>Previsão do Tempo <small></small></h2>
+          <div class="clearfix"></div>
+        </div>
+        
+        <div class="x_content">
+          
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="weather-icon">
+                <br>
+                <canvas height="60" width="60" id="icon1"></canvas>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="weather-text">  
+                <h2><b>Barão Geraldo</b>   </h2>
+                <h2>
+                  <i><%= ultimosDados.previsaoTempoAgora.summary %></i> <br>
+                  <i>Chuva:  &nbsp&nbsp&nbsp&nbsp <%=  ultimosDados.previsaoTempoAgora.precipProbability*100%> %</i> <br>
+                  <i>Vento: &nbsp<%= ultimosDados.previsaoTempoAgora.windSpeed%> km/h</i>
+                </h2>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="weather-text">
+                <br />
+                <h1><%= Math.round( ultimosDados.previsaoTempoAgora.temperature * 10) / 10%> °C</h1>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix"></div>
+          <br>
+
+          <div class="row weather-days">
+            <div class="col-sm-2">
+              <div class="daily-weather">
+                <h2 class="day"><%= ultimosDados.previsaoSemana[0].diaSemana %></h2>
+                <canvas id="icon2" width="32" height="32" class="center-block canvas_weather"></canvas>
+                <center>
+                  <span class="degrees_home"><%=Math.round(ultimosDados.previsaoSemana[0].tempMin)%>°&nbsp</span>
+                  <span class="degrees_home" ><%=Math.round(ultimosDados.previsaoSemana[0].tempMax)%>°</span>
+                </center>
+              </div>
+            </div>
+
+            <div class="col-sm-2">
+              <div class="daily-weather">
+                <h2 class="day"><%= ultimosDados.previsaoSemana[1].diaSemana %></h2>
+                <canvas id="icon3" width="32" height="32" class="center-block canvas_weather"></canvas>
+                <center>
+                  <span class="degrees_home"><%=Math.round(ultimosDados.previsaoSemana[1].tempMin)%>°&nbsp</span>
+                  <span class="degrees_home" ><%=Math.round(ultimosDados.previsaoSemana[1].tempMax)%>°</span>
+                </center>
+              </div>
+            </div>
+
+            <div class="col-sm-2">
+              <div class="daily-weather">
+                <h2 class="day"><%= ultimosDados.previsaoSemana[2].diaSemana %></h2>
+                <canvas id="icon4" width="32" height="32" class="center-block canvas_weather"></canvas>
+                <center>
+                  <span class="degrees_home"><%=Math.round(ultimosDados.previsaoSemana[2].tempMin)%>°&nbsp</span>
+                  <span class="degrees_home" ><%=Math.round(ultimosDados.previsaoSemana[2].tempMax)%>°</span>
+                </center>
+              </div>
+            </div>
+
+            <div class="col-sm-2">
+              <div class="daily-weather">
+                <h2 class="day"><%= ultimosDados.previsaoSemana[3].diaSemana %></h2>
+                <canvas id="icon5" width="32" height="32" class="center-block canvas_weather"></canvas>
+                <center>
+                  <span class="degrees_home"><%=Math.round(ultimosDados.previsaoSemana[3].tempMin)%>°&nbsp</span>
+                  <span class="degrees_home" ><%=Math.round(ultimosDados.previsaoSemana[3].tempMax)%>°</span>
+                </center>
+              </div>
+            </div>
+
+            <div class="col-sm-2">
+              <div class="daily-weather">
+                <h2 class="day"><%= ultimosDados.previsaoSemana[4].diaSemana %></h2>
+                <canvas id="icon6" width="32" height="32" class="center-block canvas_weather"></canvas>
+                <center>
+                  <span class="degrees_home"><%=Math.round(ultimosDados.previsaoSemana[4].tempMin)%>°&nbsp</span>
+                  <span class="degrees_home" ><%=Math.round(ultimosDados.previsaoSemana[4].tempMax)%>°</span>
+                </center>
+              </div>
+            </div>
+
+            <div class="col-sm-2">
+              <div class="daily-weather">
+                <h2 class="day"><%= ultimosDados.previsaoSemana[5].diaSemana %></h2>
+                <canvas id="icon7" width="32" height="32" class="center-block canvas_weather"></canvas>
+                <center>
+                  <span class="degrees_home"><%=Math.round(ultimosDados.previsaoSemana[5].tempMin)%>°&nbsp</span>
+                  <span class="degrees_home" ><%=Math.round(ultimosDados.previsaoSemana[5].tempMax)%>°</span>
+                </center>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- end of weather widget -->
+
+
+        <!-- Temperature Chart -->
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="x_panel x_panel_home">
+        <div class="x_title">
+          <h2>Temperatura<small>Últimas 24 horas</small></h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <canvas id="temperatureChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <!-- /Temperature Chart -->
+
+ </div>
+
+<!-- /Charts -->
+          
+
+<!-- =================== Footer =================== -->
+<% include ./partials/footer %>
+<!-- =================== /Footer =================== -->
+
+<!-- =================== Gráficos da Home =================== -->
+<% include chartsHome %>
+<!-- =================== /Gráficos da Home =================== -->
+
+<script type="text/javascript">
+  function init_skycons(){
+        
+      if( typeof (Skycons) === 'undefined'){ 
+        console.log("Skycons not found");       
+        return; 
+      }
+      console.log('init_skycons');
+    
+      var icons = new Skycons({
+        "color": "#73879C"
+        }),
+        list = [
+        "clear-day", "clear-night", "partly-cloudy-day",
+        "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
+        "fog"
+        ],
+        i;
+
+      icons.set("icon1", '<%=ultimosDados.previsaoTempoAgora.icon%>');  
+      icons.set("icon2", '<%=ultimosDados.previsaoSemana[0].icon%>');
+      icons.set("icon3", '<%=ultimosDados.previsaoSemana[1].icon%>');
+      icons.set("icon4", '<%=ultimosDados.previsaoSemana[2].icon%>');
+      icons.set("icon5", '<%=ultimosDados.previsaoSemana[3].icon%>');
+      icons.set("icon6", '<%=ultimosDados.previsaoSemana[4].icon%>');
+      icons.set("icon7", '<%=ultimosDados.previsaoSemana[5].icon%>');
+
+      icons.play();
+  
+  }
+
+
+init_skycons();
+</script>

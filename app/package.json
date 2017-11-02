@@ -1,0 +1,35 @@
+{
+  "name": "prototipo",
+  "version": "1.0.0",
+  "description": "Primeiro protótipo do meu TCC (Leandro Bellini)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leandrobellini/meuTCC.git"
+  },
+  "author": "Leandro Bellini",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/leandrobellini/meuTCC/issues"
+  },
+  "homepage": "https://github.com/leandrobellini/meuTCC#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "chart.js": "^2.6.0",
+    "ejs": "^2.5.7",
+    "express": "^4.15.3",
+    "express-session": "^1.15.5",
+    "moment": "^2.18.1",
+    "mongoose": "^4.11.6",
+    "mqtt": "^2.11.0",
+    "node-schedule": "^1.2.4",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^4.2.1",
+    "request": "^2.81.0",
+    "websocket": "^1.0.24"
+  }
+}
